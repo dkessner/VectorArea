@@ -14,6 +14,8 @@ void ofApp::setup()
 
     arrow.addColor(ofColor::white);
     arrow.addColor(ofColor::white);
+
+    v.set(glm::vec3(200.0, 50.0, 0));
 }
 
 
@@ -59,6 +61,8 @@ void ofApp::draw()
     ofDrawBitmapString("Hello, world!", 50, 50);
 
     arrow.draw();
+
+    v.draw();
 
     //tutorial2D();
     tutorial3D();

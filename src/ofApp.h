@@ -5,6 +5,7 @@
 
 #pragma once
 #include "ofMain.h"
+#include "Vector.hpp"
 
 
 class ofApp : public ofBaseApp
@@ -30,5 +31,7 @@ class ofApp : public ofBaseApp
     private:
     
     ofMesh arrow;
+
+    Vector v;
 };
 

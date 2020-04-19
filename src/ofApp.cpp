@@ -21,7 +21,6 @@ void ofApp::setup()
 
 void ofApp::update()
 {
-    arrow.setVertex(1, ofPoint(ofGetMouseX(), ofGetMouseY()));
 }
 
 
@@ -62,7 +61,12 @@ void ofApp::draw()
 
     arrow.draw();
 
-    v.draw();
+    double d = v.mouseDistance();
+
+    if (d <.5)
+        v.drawHighlighted();
+    else
+        v.draw();
 
     //tutorial2D();
     tutorial3D();

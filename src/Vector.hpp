@@ -11,7 +11,11 @@ class Vector
     public:
 
     void set(const glm::vec3& components);
+
     void draw();
+    void drawHighlighted();
+
+    double mouseDistance();
 
     private:
 

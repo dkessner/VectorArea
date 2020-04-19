@@ -16,7 +16,7 @@ class Vector
     private:
 
     glm::vec3 components;
-    ofMesh mesh;
+    of3dPrimitive primitive;
 
     void updateMesh();
 };

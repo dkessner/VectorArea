@@ -3,6 +3,7 @@
 //
 
 
+#include "ofMain.h"
 #include <limits>
 #include <memory>
 #include <vector>
@@ -12,7 +13,7 @@ class Pickable
 {
     public:
 
-    virtual double distance(int mouseX, int mouseY) 
+    virtual double distance(const glm::vec3& mouse) 
     {
         return std::numeric_limits<int>::max();
     }
@@ -25,7 +26,7 @@ class Pickable
 
     static void addToRegistry(std::shared_ptr<Pickable> pickable);
 
-    private:
+//    private:  // TODO: uncomment
 
     static std::vector<std::weak_ptr<Pickable>> registry;
 };

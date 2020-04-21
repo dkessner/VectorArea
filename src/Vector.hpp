@@ -4,11 +4,14 @@
 
 
 #include "ofMain.h"
+#include "Pickable.hpp"
 
 
 class Vector
 {
     public:
+
+    Vector();
 
     void set(const glm::vec3& components);
 
@@ -23,6 +26,10 @@ class Vector
     of3dPrimitive primitive;
 
     void updateMesh();
+
+    std::shared_ptr<Pickable> pickableHead;
+
+    class PickableHead;
 };
 
 

@@ -7,32 +7,35 @@
 
 
 
-class Vector::PickableHead : public Pickable
+class Vector::PickableTail : public Pickable
 {
     public:
 
-    PickableHead(const of3dPrimitive& primitive)
-    :    primitive(primitive) 
+    PickableTail(const Vector& parent)
+    :    parent(parent) 
     {}
 
     virtual double distance(const glm::vec3& mouse)
     {
-        return glm::distance(mouse, primitive.getPosition());
+        return glm::distance(mouse, parent.primitive.getPosition());
     }
 
-    virtual void drawHighlight() {}
+    virtual void drawHighlight()
+    {
+        ofDrawCircle(parent.primitive.getPosition(), 10);
+    }
 
     private:
 
-    const of3dPrimitive& primitive;
+    const Vector& parent;
 };
 
 
 
 Vector::Vector()
 {
-    pickableHead = make_shared<PickableHead>(primitive);
-    Pickable::addToRegistry(pickableHead);
+    pickableTail = make_shared<PickableTail>(*this);
+    Pickable::addToRegistry(pickableTail);
 }
 
 
@@ -48,17 +51,6 @@ void Vector::set(const glm::vec3& components)
 void Vector::draw()
 {
     primitive.draw();
-
-    // TODO: remove (first test of registry and distance function)
-    // next: highlight objects
-
-    glm::vec3 mouse(ofGetMouseX(), ofGetMouseY(), 0);
-
-    for (auto pickable : Pickable::registry)
-    {
-        auto p = pickable.lock();
-        cout << "distance: " << p->distance(mouse) << endl;
-    }
 }
 
 

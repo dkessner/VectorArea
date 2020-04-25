@@ -25,8 +25,9 @@ class Pickable
     virtual void pickEnd() {}
 
     static void addToRegistry(std::shared_ptr<Pickable> pickable);
+    static void drawHighlightPicked(glm::vec3 mousePosition, double radius);
 
-//    private:  // TODO: uncomment
+    private:
 
     static std::vector<std::weak_ptr<Pickable>> registry;
 };

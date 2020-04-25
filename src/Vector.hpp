@@ -27,9 +27,9 @@ class Vector
 
     void updateMesh();
 
-    std::shared_ptr<Pickable> pickableHead;
+    std::shared_ptr<Pickable> pickableTail;
 
-    class PickableHead;
+    class PickableTail;
 };
 
 

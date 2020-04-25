@@ -59,19 +59,25 @@ void ofApp::draw()
     ofSetColor(255);
     ofDrawBitmapString("Hello, world!", 50, 50);
 
-    arrow.draw();
+    //arrow.draw();
 
+    v.draw();
+
+    glm::vec3 mousePosition(ofGetMouseX(), ofGetMouseY(), 0);
+    Pickable::drawHighlightPicked(mousePosition, 50);
+
+    /*
     double d = v.mouseDistance();
 
     if (d <.5)
         v.drawHighlighted();
     else
         v.draw();
+        */
 
     //tutorial2D();
     tutorial3D();
 }
-
 
 
 

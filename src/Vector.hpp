@@ -26,10 +26,6 @@ class Vector
     of3dPrimitive primitive;
 
     void updateMesh();
-
-    std::shared_ptr<Pickable> pickableTail;
-
-    class PickableTail;
 };
 
 

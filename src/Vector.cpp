@@ -7,35 +7,8 @@
 
 
 
-class Vector::PickableTail : public Pickable
-{
-    public:
-
-    PickableTail(const Vector& parent)
-    :    parent(parent) 
-    {}
-
-    virtual double distance(const glm::vec3& mouse)
-    {
-        return glm::distance(mouse, parent.primitive.getPosition());
-    }
-
-    virtual void drawHighlight()
-    {
-        ofDrawCircle(parent.primitive.getPosition(), 10);
-    }
-
-    private:
-
-    const Vector& parent;
-};
-
-
-
 Vector::Vector()
 {
-    pickableTail = make_shared<PickableTail>(*this);
-    Pickable::addToRegistry(pickableTail);
 }
 
 
@@ -44,7 +17,7 @@ void Vector::set(const glm::vec3& components)
     this->components = components;
     updateMesh();
 
-    primitive.move(ofGetWindowWidth()/2, ofGetWindowHeight()/2, 0.0f);
+    primitive.move(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2, 0.0f);
 }
 
 

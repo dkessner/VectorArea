@@ -15,6 +15,7 @@ void Pickable::addToRegistry(shared_ptr<Pickable> pickable)
 }
 
 
+/*
 void Pickable::drawHighlightPicked(glm::vec3 mousePosition, double radius)
 {
     for (auto pickable : Pickable::registry)
@@ -26,6 +27,7 @@ void Pickable::drawHighlightPicked(glm::vec3 mousePosition, double radius)
         }
     }
 }
+*/
 
 
 vector<weak_ptr<Pickable>> Pickable::registry;

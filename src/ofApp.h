@@ -33,5 +33,7 @@ class ofApp : public ofBaseApp
     ofMesh arrow;
 
     Vector v;
+
+    shared_ptr<Pickable> p;
 };
 

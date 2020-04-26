@@ -16,6 +16,9 @@ void ofApp::setup()
     arrow.addColor(ofColor::white);
 
     v.set(glm::vec3(200.0, 50.0, 0));
+
+    p = make_shared<PickableCircle>(ofGetWindowWidth()/2, ofGetWindowHeight()/2);
+    cout << "window: " << ofGetWindowWidth()/2 << ", " << ofGetWindowHeight()/2 << endl;
 }
 
 
@@ -30,6 +33,7 @@ namespace {
 void tutorial2D()
 {
     ofNoFill();
+    ofSetLineWidth(1);
     ofDrawRectangle(64, 64, 64, 64);
     ofDrawCircle(192, 96, 32);
     ofDrawLine(256, 64, 320, 128);
@@ -42,6 +46,7 @@ void tutorial2D()
 void tutorial3D()
 {
     ofNoFill();
+    ofSetLineWidth(1);
     ofDrawBox(64, 256, 0, 64, 64, 64);
     ofDrawCone(160, 256, 0, 32, 128);
     ofDrawCylinder(256, 256, 32, 128);
@@ -63,8 +68,9 @@ void ofApp::draw()
 
     v.draw();
 
-    glm::vec3 mousePosition(ofGetMouseX(), ofGetMouseY(), 0);
-    Pickable::drawHighlightPicked(mousePosition, 50);
+
+    p->draw();
+
 
     /*
     double d = v.mouseDistance();

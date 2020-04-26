@@ -6,6 +6,7 @@
 #pragma once
 #include "ofMain.h"
 #include "Vector.hpp"
+#include "Pickable.hpp"
 
 
 class ofApp : public ofBaseApp

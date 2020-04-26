@@ -9,27 +9,34 @@
 using namespace std;
 
 
+vector<weak_ptr<Pickable>> Pickable::registry;
+
+
 void Pickable::addToRegistry(shared_ptr<Pickable> pickable)
 {
     registry.push_back(pickable); 
 }
 
 
-/*
-void Pickable::drawHighlightPicked(glm::vec3 mousePosition, double radius)
+void Pickable::mousePressed(int x, int y, int button)
 {
-    for (auto pickable : Pickable::registry)
-    {
-        if (auto p = pickable.lock())
-        {
-            if (p->distance(mousePosition) < radius)
-                p->drawHighlight();
-        }
-    }
+    for (auto wp : registry)
+        if (auto p = wp.lock())
+            if (p->selected())
+                p->handleMousePressed(x, y, button);
 }
-*/
 
 
-vector<weak_ptr<Pickable>> Pickable::registry;
+void Pickable::mouseDragged(int x, int y, int button)
+{
+
+
+}
+
+void Pickable::mouseReleased(int x, int y, int button)
+{
+
+}
+
 
 

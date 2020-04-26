@@ -4,7 +4,6 @@
 
 
 #include "ofMain.h"
-#include "Pickable.hpp"
 
 
 class Vector

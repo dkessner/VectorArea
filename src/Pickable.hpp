@@ -3,6 +3,7 @@
 //
 
 
+#pragma once
 #include "ofMain.h"
 #include <limits>
 #include <memory>
@@ -13,14 +14,24 @@ class Pickable
 {
     public:
 
+    virtual void draw() const {} 
+
+    static void addToRegistry(std::shared_ptr<Pickable> pickable);
+    static void mousePressed(int x, int y, int button);
+    static void mouseDragged(int x, int y, int button);
+    static void mouseReleased(int x, int y, int button);
+
+    protected:
+
+    bool selected() const
+    {
+        return distance(mouse()) < pickRadius;
+    }
+
     virtual double distance(const glm::vec3& mouse) const
     {
         return std::numeric_limits<int>::max();
     }
-
-    virtual void draw() const {} 
-
-    protected:
 
     glm::vec3 mouse() const
     {
@@ -28,6 +39,10 @@ class Pickable
     }
 
     static constexpr double pickRadius = 10.0;
+
+    virtual void handleMousePressed(int x, int y, int button) {}
+    virtual void handleMouseDragged(int x, int y, int button) {}
+    virtual void handleMouseReleased(int x, int y, int button) {}
 
     // TODO: mouse event handling and listeners
 
@@ -37,7 +52,6 @@ class Pickable
     virtual void pickEnd() {}
     */
 
-    static void addToRegistry(std::shared_ptr<Pickable> pickable);
     //static void drawHighlightPicked(glm::vec3 mousePosition, double radius);
 
     private:
@@ -54,16 +68,11 @@ class PickableCircle : public Pickable
     :   position(x, y, 0)
     {}
 
-    double distance(const glm::vec3& mouse) const override
-    {
-        return glm::distance(position, mouse);
-    }
-
     void draw() const override
     {
         double radius = pickRadius;
 
-        if (distance(mouse()) < radius)
+        if (selected())
         {
             ofSetLineWidth(5);
             radius *= 1.2;
@@ -75,6 +84,26 @@ class PickableCircle : public Pickable
 
         ofSetColor(255);
         ofDrawCircle(position, radius);
+    }
+
+    virtual void handleMousePressed(int x, int y, int button)
+    {
+        cout << "pressed\n" << flush;
+    }
+
+    virtual void handleMouseDragged(int x, int y, int button)
+    {
+    }
+
+    virtual void handleMouseReleased(int x, int y, int button)
+    {
+    }
+
+    protected:
+
+    double distance(const glm::vec3& mouse) const override
+    {
+        return glm::distance(position, mouse);
     }
 
     private:

@@ -31,10 +31,7 @@ class ofApp : public ofBaseApp
 
     private:
     
-    ofMesh arrow;
-
     Vector v;
-
     shared_ptr<Pickable> p;
 };
 

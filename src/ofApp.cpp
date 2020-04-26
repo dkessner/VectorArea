@@ -9,17 +9,9 @@
 
 void ofApp::setup()
 {
-    arrow.setMode(OF_PRIMITIVE_LINE_STRIP);
-    arrow.addVertex(glm::vec3(50, 50, 0));
-    arrow.addVertex(ofPoint(100, 100));
-
-    arrow.addColor(ofColor::white);
-    arrow.addColor(ofColor::white);
-
     v.set(glm::vec3(200.0, 50.0, 0));
 
     p = make_shared<PickableCircle>(ofGetWindowWidth()/2, ofGetWindowHeight()/2);
-    cout << "window: " << ofGetWindowWidth()/2 << ", " << ofGetWindowHeight()/2 << endl;
 
     Pickable::addToRegistry(p);
 }
@@ -64,25 +56,14 @@ void tutorial3D()
 void ofApp::draw()
 {
     ofBackground(0);
+
     ofSetColor(255);
     ofDrawBitmapString("Hello, world!", 50, 50);
 
-    //arrow.draw();
-
     v.draw();
-
 
     p->draw();
 
-
-    /*
-    double d = v.mouseDistance();
-
-    if (d <.5)
-        v.drawHighlighted();
-    else
-        v.draw();
-        */
 
     //tutorial2D();
     tutorial3D();

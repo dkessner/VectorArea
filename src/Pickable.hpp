@@ -23,9 +23,16 @@ class Pickable
 
     protected:
 
-    bool selected() const
+    static constexpr double pickRadius = 10.0;
+
+    static glm::vec3 mouse()
     {
-        return distance(mouse()) < pickRadius;
+        return glm::vec3(ofGetMouseX(), ofGetMouseY(), 0);
+    }
+
+    static glm::vec3 previousMouse()
+    {
+        return glm::vec3(ofGetPreviousMouseX(), ofGetPreviousMouseY(), 0);
     }
 
     virtual double distance(const glm::vec3& mouse) const
@@ -33,30 +40,19 @@ class Pickable
         return std::numeric_limits<int>::max();
     }
 
-    glm::vec3 mouse() const
+    bool picked() const
     {
-        return glm::vec3(ofGetMouseX(), ofGetMouseY(), 0);
+        return distance(mouse()) < pickRadius;
     }
-
-    static constexpr double pickRadius = 10.0;
 
     virtual void handleMousePressed(int x, int y, int button) {}
     virtual void handleMouseDragged(int x, int y, int button) {}
     virtual void handleMouseReleased(int x, int y, int button) {}
 
-    // TODO: mouse event handling and listeners
-
-    /*
-    virtual void pickBegin() {}
-    virtual void pickMove() {}
-    virtual void pickEnd() {}
-    */
-
-    //static void drawHighlightPicked(glm::vec3 mousePosition, double radius);
-
     private:
 
     static std::vector<std::weak_ptr<Pickable>> registry;
+    static std::shared_ptr<Pickable> selected;
 };
 
 
@@ -72,7 +68,7 @@ class PickableCircle : public Pickable
     {
         double radius = pickRadius;
 
-        if (selected())
+        if (picked())
         {
             ofSetLineWidth(5);
             radius *= 1.2;
@@ -93,10 +89,15 @@ class PickableCircle : public Pickable
 
     virtual void handleMouseDragged(int x, int y, int button)
     {
+        cout << "dragged\n" << flush;
+
+        position -= previousMouse();
+        position += mouse();
     }
 
     virtual void handleMouseReleased(int x, int y, int button)
     {
+        cout << "released\n" << flush;
     }
 
     protected:
@@ -108,9 +109,7 @@ class PickableCircle : public Pickable
 
     private:
 
-    const glm::vec3 position;
+    glm::vec3 position;
 };
-
-
 
 

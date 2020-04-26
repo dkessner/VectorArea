@@ -3,11 +3,9 @@
 ## TODO
 
 - Pickable interface
-    - getMouseDistance()
-    - drawHighlighted()
-    - move(vec3)
-- Vector: pick head, tail, or body
-    - 3 inner Pickable classes
+    - callback implementation
+- Vector: 
+    - register 3 Pickable objects (head, tail, body) 
 
 
 ## Reference

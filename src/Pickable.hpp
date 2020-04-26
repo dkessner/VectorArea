@@ -16,6 +16,13 @@ class Pickable
 
     virtual void draw() const {} 
 
+    // TODO: callback interface
+    //  - store list of std::function; use std::bind for member functions
+    // https://embeddedartistry.com/blog/2017/02/01/improving-your-callback-game/
+
+    // static interface for app to register Pickable objects and delegate mouse
+    // events
+
     static void addToRegistry(std::shared_ptr<Pickable> pickable);
     static void mousePressed(int x, int y, int button);
     static void mouseDragged(int x, int y, int button);

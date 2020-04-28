@@ -7,6 +7,8 @@
 #include "Pickable.hpp"
 
 
+using namespace std;
+
 
 namespace {
 
@@ -101,23 +103,9 @@ void ofApp::draw()
 }
 
 
-void ofApp::mouseDragged(int x, int y, int button)
-{
-    Pickable::mouseDragged(x, y, button);
-}
-
-
-void ofApp::mousePressed(int x, int y, int button)
-{
-    Pickable::mousePressed(x, y, button);
-}
-
-
-void ofApp::mouseReleased(int x, int y, int button)
-{
-    Pickable::mouseReleased(x, y, button);
-}
-
+void ofApp::mouseDragged(int x, int y, int button) {}
+void ofApp::mousePressed(int x, int y, int button) {}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 void ofApp::keyPressed(int key){}
 void ofApp::keyReleased(int key){}

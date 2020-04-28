@@ -14,6 +14,14 @@ using namespace glm;
 vector<weak_ptr<Pickable>> Pickable::registry;
 
 
+void Pickable::initializeRegistry()
+{
+    ofAddListener(ofEvents().mousePressed, &Pickable::mousePressed);
+    ofAddListener(ofEvents().mouseDragged, &Pickable::mouseDragged);
+    ofAddListener(ofEvents().mouseReleased, &Pickable::mouseReleased);
+}
+
+
 // Pickable object selected on mouse press, and receives subsequent mouse drag
 // and mouse release events
 shared_ptr<Pickable> Pickable::selected;
@@ -21,11 +29,12 @@ shared_ptr<Pickable> Pickable::selected;
 
 /*static*/ void Pickable::addToRegistry(shared_ptr<Pickable> pickable)
 {
+    if (registry.empty()) initializeRegistry();
     registry.push_back(pickable); 
 }
 
 
-/*static*/ void Pickable::mousePressed(int x, int y, int button)
+/*static*/ void Pickable::mousePressed(ofMouseEventArgs&)
 {
     for (auto wp : registry)
         if (auto p = wp.lock())
@@ -36,25 +45,25 @@ shared_ptr<Pickable> Pickable::selected;
             }
 
     if (selected)
-        selected->handleMousePressed(x, y, button);
+        selected->handleMousePressed();
 }
 
 
-/*static*/ void Pickable::mouseDragged(int x, int y, int button)
+/*static*/ void Pickable::mouseDragged(ofMouseEventArgs&)
 {
     if (selected)
     {
-        selected->handleMouseDragged(x, y, button);
+        selected->handleMouseDragged();
 
         for (const auto& callback : selected->callbacks)
             callback(mouseMovement());
     }
 }
 
-/*static*/ void Pickable::mouseReleased(int x, int y, int button)
+/*static*/ void Pickable::mouseReleased(ofMouseEventArgs&)
 {
     if (selected)
-        selected->handleMouseReleased(x, y, button);
+        selected->handleMouseReleased();
 
     selected.reset();
 }
@@ -90,7 +99,7 @@ void PickableCircle::draw() const
 }
 
 
-void PickableCircle::handleMouseDragged(int x, int y, int button)
+void PickableCircle::handleMouseDragged()
 {
     position += mouseMovement();
 }

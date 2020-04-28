@@ -21,9 +21,6 @@ class Pickable
     // client registers Pickable objects to receive mouse events
 
     static void addToRegistry(std::shared_ptr<Pickable> pickable);
-    static void mousePressed(int x, int y, int button);
-    static void mouseDragged(int x, int y, int button);
-    static void mouseReleased(int x, int y, int button);
 
     // callback on drag movement
 
@@ -60,14 +57,19 @@ class Pickable
     // virtual functions to be overridden in subclasses
 
     virtual double distance(const glm::vec3& mouse) const {return std::numeric_limits<int>::max();}
-    virtual void handleMousePressed(int x, int y, int button) {}
-    virtual void handleMouseDragged(int x, int y, int button) {}
-    virtual void handleMouseReleased(int x, int y, int button) {}
+    virtual void handleMousePressed() {}
+    virtual void handleMouseDragged() {}
+    virtual void handleMouseReleased() {}
 
     private:
 
     static std::vector<std::weak_ptr<Pickable>> registry;
+    static void initializeRegistry();
     static std::shared_ptr<Pickable> selected;
+
+    static void mousePressed(ofMouseEventArgs&);
+    static void mouseDragged(ofMouseEventArgs&);
+    static void mouseReleased(ofMouseEventArgs&);
 
     std::vector<Callback> callbacks;
 };
@@ -86,7 +88,7 @@ class PickableCircle : public Pickable
     protected:
 
     double distance(const glm::vec3& mouse) const override;
-    void handleMouseDragged(int x, int y, int button) override;
+    void handleMouseDragged() override;
 
     private:
 

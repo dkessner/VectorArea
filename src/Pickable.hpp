@@ -42,16 +42,12 @@ class Pickable
         return glm::vec3(ofGetPreviousMouseX(), ofGetPreviousMouseY(), 0);
     }
 
-    virtual double distance(const glm::vec3& mouse) const
-    {
-        return std::numeric_limits<int>::max();
-    }
-
     bool picked() const
     {
         return distance(mouse()) < pickRadius;
     }
 
+    virtual double distance(const glm::vec3& mouse) const {return std::numeric_limits<int>::max();}
     virtual void handleMousePressed(int x, int y, int button) {}
     virtual void handleMouseDragged(int x, int y, int button) {}
     virtual void handleMouseReleased(int x, int y, int button) {}
@@ -71,48 +67,14 @@ class PickableCircle : public Pickable
     :   position(x, y, 0)
     {}
 
-    void draw() const override
-    {
-        double radius = pickRadius;
-
-        if (picked())
-        {
-            ofSetLineWidth(5);
-            radius *= 1.2;
-        }
-        else
-        {
-            ofSetLineWidth(2);
-        }
-
-        ofSetColor(255);
-        ofDrawCircle(position, radius);
-    }
-
-    virtual void handleMousePressed(int x, int y, int button)
-    {
-        cout << "pressed\n" << flush;
-    }
-
-    virtual void handleMouseDragged(int x, int y, int button)
-    {
-        cout << "dragged\n" << flush;
-
-        position -= previousMouse();
-        position += mouse();
-    }
-
-    virtual void handleMouseReleased(int x, int y, int button)
-    {
-        cout << "released\n" << flush;
-    }
+    void draw() const override;
+    void handleMousePressed(int x, int y, int button) override;
+    void handleMouseDragged(int x, int y, int button) override;
+    void handleMouseReleased(int x, int y, int button) override;
 
     protected:
 
-    double distance(const glm::vec3& mouse) const override
-    {
-        return glm::distance(position, mouse);
-    }
+    double distance(const glm::vec3& mouse) const override;
 
     private:
 

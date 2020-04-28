@@ -11,9 +11,13 @@ void ofApp::setup()
 {
     v.set(glm::vec3(200.0, 50.0, 0));
 
-    p = make_shared<PickableCircle>(ofGetWindowWidth()/2, ofGetWindowHeight()/2);
-
+    auto p = make_shared<PickableCircle>(500, 400);
     Pickable::addToRegistry(p);
+    pickables.push_back(p);
+
+    p = make_shared<PickableCircle>(500, 500);
+    Pickable::addToRegistry(p);
+    pickables.push_back(p);
 }
 
 
@@ -62,7 +66,8 @@ void ofApp::draw()
 
     v.draw();
 
-    p->draw();
+    for (auto p : pickables)
+        p->draw();
 
 
     //tutorial2D();

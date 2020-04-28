@@ -27,8 +27,8 @@ class Pickable
 
     // callback on drag movement
 
-    typedef std::function<void(const glm::vec3& movement)> Listener;
-    void registerListener(Listener listener);
+    typedef std::function<void(const glm::vec3& movement)> Callback;
+    void registerCallback(Callback callback);
 
     protected:
 
@@ -44,6 +44,11 @@ class Pickable
     static glm::vec3 previousMouse()
     {
         return glm::vec3(ofGetPreviousMouseX(), ofGetPreviousMouseY(), 0);
+    }
+
+    static glm::vec3 mouseMovement()
+    {
+        return mouse() - previousMouse();
     }
 
     bool picked() const
@@ -63,6 +68,8 @@ class Pickable
 
     static std::vector<std::weak_ptr<Pickable>> registry;
     static std::shared_ptr<Pickable> selected;
+
+    std::vector<Callback> callbacks;
 };
 
 
@@ -75,13 +82,11 @@ class PickableCircle : public Pickable
     {}
 
     void draw() const override;
-    void handleMousePressed(int x, int y, int button) override;
-    void handleMouseDragged(int x, int y, int button) override;
-    void handleMouseReleased(int x, int y, int button) override;
 
     protected:
 
     double distance(const glm::vec3& mouse) const override;
+    void handleMouseDragged(int x, int y, int button) override;
 
     private:
 

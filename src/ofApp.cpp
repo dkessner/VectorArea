@@ -7,6 +7,22 @@
 #include "Pickable.hpp"
 
 
+
+namespace {
+
+float x = 200;
+float y = 400;
+
+
+void testCallback(const glm::vec3& movement)
+{
+    x += movement.x;
+    y += movement.y;
+}
+
+}
+
+
 void ofApp::setup()
 {
     v.set(glm::vec3(200.0, 50.0, 0));
@@ -14,10 +30,12 @@ void ofApp::setup()
     auto p = make_shared<PickableCircle>(500, 400);
     Pickable::addToRegistry(p);
     pickables.push_back(p);
+    p->registerCallback(testCallback);
 
     p = make_shared<PickableCircle>(500, 500);
     Pickable::addToRegistry(p);
     pickables.push_back(p);
+    p->registerCallback(testCallback);
 }
 
 
@@ -32,6 +50,7 @@ namespace {
 void tutorial2D()
 {
     ofNoFill();
+    ofSetColor(255);
     ofSetLineWidth(1);
     ofDrawRectangle(64, 64, 64, 64);
     ofDrawCircle(192, 96, 32);
@@ -46,6 +65,7 @@ void tutorial3D()
 {
     ofNoFill();
     ofSetLineWidth(1);
+    ofSetColor(255);
     ofDrawBox(64, 256, 0, 64, 64, 64);
     ofDrawCone(160, 256, 0, 32, 128);
     ofDrawCylinder(256, 256, 32, 128);
@@ -55,6 +75,8 @@ void tutorial3D()
 }
 
 } // namespace
+
+
 
 
 void ofApp::draw()
@@ -69,6 +91,10 @@ void ofApp::draw()
     for (auto p : pickables)
         p->draw();
 
+    ofFill();
+    ofSetLineWidth(1);
+    ofSetColor(0, 255, 0);
+    ofDrawCircle(x, y, 20);
 
     //tutorial2D();
     tutorial3D();

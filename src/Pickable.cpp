@@ -43,7 +43,12 @@ shared_ptr<Pickable> Pickable::selected;
 /*static*/ void Pickable::mouseDragged(int x, int y, int button)
 {
     if (selected)
+    {
         selected->handleMouseDragged(x, y, button);
+
+        for (const auto& callback : selected->callbacks)
+            callback(mouseMovement());
+    }
 }
 
 /*static*/ void Pickable::mouseReleased(int x, int y, int button)
@@ -55,9 +60,16 @@ shared_ptr<Pickable> Pickable::selected;
 }
 
 
+void Pickable::registerCallback(Callback callback)
+{
+    callbacks.push_back(callback);
+}
+
+
 //
 // PickableCircle
 //
+
 
 void PickableCircle::draw() const
 {
@@ -78,24 +90,9 @@ void PickableCircle::draw() const
 }
 
 
-void PickableCircle::handleMousePressed(int x, int y, int button)
-{
-    cout << "pressed\n" << flush;
-}
-
-
 void PickableCircle::handleMouseDragged(int x, int y, int button)
 {
-    cout << "dragged\n" << flush;
-
-    position -= previousMouse();
-    position += mouse();
-}
-
-
-void PickableCircle::handleMouseReleased(int x, int y, int button)
-{
-    cout << "released\n" << flush;
+    position += mouseMovement();
 }
 
 

@@ -14,23 +14,27 @@ class Pickable
 {
     public:
 
+    // client maintains control over drawing
+
     virtual void draw() const {} 
 
-    // TODO: callback interface
-    //  - store list of std::function; use std::bind for member functions
-    // https://embeddedartistry.com/blog/2017/02/01/improving-your-callback-game/
-
-    // static interface for app to register Pickable objects and delegate mouse
-    // events
+    // client registers Pickable objects to receive mouse events
 
     static void addToRegistry(std::shared_ptr<Pickable> pickable);
     static void mousePressed(int x, int y, int button);
     static void mouseDragged(int x, int y, int button);
     static void mouseReleased(int x, int y, int button);
 
+    // callback on drag movement
+
+    typedef std::function<void(const glm::vec3& movement)> Listener;
+    void registerListener(Listener listener);
+
     protected:
 
     static constexpr double pickRadius = 10.0;
+
+    // helper functions for subclasses
 
     static glm::vec3 mouse()
     {
@@ -44,8 +48,11 @@ class Pickable
 
     bool picked() const
     {
+        // note: distance() is virtual, pickRadius is static
         return distance(mouse()) < pickRadius;
     }
+
+    // virtual functions to be overridden in subclasses
 
     virtual double distance(const glm::vec3& mouse) const {return std::numeric_limits<int>::max();}
     virtual void handleMousePressed(int x, int y, int button) {}

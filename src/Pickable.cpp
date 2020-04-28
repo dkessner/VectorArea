@@ -10,17 +10,22 @@ using namespace std;
 using namespace glm;
 
 
+// registry of Pickable objects to receive mouse events
 vector<weak_ptr<Pickable>> Pickable::registry;
+
+
+// Pickable object selected on mouse press, and receives subsequent mouse drag
+// and mouse release events
 shared_ptr<Pickable> Pickable::selected;
 
 
-void Pickable::addToRegistry(shared_ptr<Pickable> pickable)
+/*static*/ void Pickable::addToRegistry(shared_ptr<Pickable> pickable)
 {
     registry.push_back(pickable); 
 }
 
 
-void Pickable::mousePressed(int x, int y, int button)
+/*static*/ void Pickable::mousePressed(int x, int y, int button)
 {
     for (auto wp : registry)
         if (auto p = wp.lock())
@@ -35,13 +40,13 @@ void Pickable::mousePressed(int x, int y, int button)
 }
 
 
-void Pickable::mouseDragged(int x, int y, int button)
+/*static*/ void Pickable::mouseDragged(int x, int y, int button)
 {
     if (selected)
         selected->handleMouseDragged(x, y, button);
 }
 
-void Pickable::mouseReleased(int x, int y, int button)
+/*static*/ void Pickable::mouseReleased(int x, int y, int button)
 {
     if (selected)
         selected->handleMouseReleased(x, y, button);

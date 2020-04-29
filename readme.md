@@ -2,8 +2,6 @@
 
 ## TODO
 
-- Pickable interface
-    - callback implementation
 - Vector: 
     - register 3 Pickable objects (head, tail, body) 
 

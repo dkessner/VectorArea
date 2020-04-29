@@ -14,15 +14,12 @@ class Vector
     Vector();
 
     void set(const glm::vec3& components);
-    void move(const glm::vec3& movement);
     void setPosition(const glm::vec3& position);
 
     void draw();
-    void drawHighlighted();
-
-    double mouseDistance();
 
     void moveTail(const glm::vec3& movement);
+    void moveHead(const glm::vec3& movement);
 
     private:
 
@@ -30,7 +27,9 @@ class Vector
     of3dPrimitive primitive;
 
     shared_ptr<PickableCircle> pickableTail; 
+    shared_ptr<PickableCircle> pickableHead; 
 
+    void initializeMesh();
     void updateMesh();
 };
 

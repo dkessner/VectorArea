@@ -8,6 +8,7 @@
 
 
 using namespace std;
+using namespace glm;
 
 
 namespace {
@@ -27,7 +28,8 @@ void testCallback(const glm::vec3& movement)
 
 void ofApp::setup()
 {
-    v.set(glm::vec3(200.0, 50.0, 0));
+    v.set(vec3(200.0, 50.0, 0));
+    v.move(vec3(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2, 0.0));
 
     auto p = PickableCircle::create(500, 400);
     pickables.push_back(p);

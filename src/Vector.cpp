@@ -6,9 +6,15 @@
 #include "Vector.hpp"
 
 
+using namespace std;
+using namespace glm;
+
+
 
 Vector::Vector()
 {
+    pickableTail = PickableCircle::create();
+    pickableTail->registerCallback(bind(&Vector::moveTail, this, std::placeholders::_1));
 }
 
 
@@ -16,14 +22,33 @@ void Vector::set(const glm::vec3& components)
 {
     this->components = components;
     updateMesh();
+}
 
-    primitive.move(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2, 0.0f);
+
+void Vector::move(const vec3& movement)
+{
+    primitive.move(movement);
+    pickableTail->move(movement);
+}
+
+
+void Vector::moveTail(const glm::vec3& movement)
+{
+    primitive.move(movement);
+}
+
+
+void Vector::setPosition(const vec3& position)
+{
+    primitive.setPosition(position);
+    pickableTail->setPosition(position);
 }
 
 
 void Vector::draw()
 {
     primitive.draw();
+    pickableTail->draw();
 }
 
 

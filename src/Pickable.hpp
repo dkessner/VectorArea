@@ -88,14 +88,17 @@ class PickableCircle : public Pickable
 
     // static create() automatically adds object to registry
 
-    static std::shared_ptr<Pickable> create(double x, double y)
+    static std::shared_ptr<PickableCircle> create(double x = 0, double y = 0)
     {
-        auto result = shared_ptr<Pickable>(new PickableCircle(x, y));
+        auto result = shared_ptr<PickableCircle>(new PickableCircle(x, y));
         addToRegistry(result);
         return result;
     }
 
     void draw() const override;
+
+    void setPosition(const glm::vec3& position) {this->position = position;}
+    void move(const glm::vec3& movement) {position += movement;}
 
     protected:
 

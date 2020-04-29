@@ -29,13 +29,11 @@ void ofApp::setup()
 {
     v.set(glm::vec3(200.0, 50.0, 0));
 
-    auto p = make_shared<PickableCircle>(500, 400);
-    Pickable::addToRegistry(p);
+    auto p = PickableCircle::create(500, 400);
     pickables.push_back(p);
     p->registerCallback(testCallback);
 
-    p = make_shared<PickableCircle>(500, 500);
-    Pickable::addToRegistry(p);
+    p = PickableCircle::create(500, 500);
     pickables.push_back(p);
     p->registerCallback(testCallback);
 }

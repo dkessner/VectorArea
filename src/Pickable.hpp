@@ -12,26 +12,39 @@
 
 class Pickable
 {
+    //
+    // client interface/implementation
+    //
+
     public:
 
-    // client maintains control over drawing
-
-    virtual void draw() const {} 
-
-    // client registers Pickable objects to receive mouse events
-
-    static void addToRegistry(std::shared_ptr<Pickable> pickable);
-
-    // callback on drag movement
+    virtual void draw() const = 0;
 
     typedef std::function<void(const glm::vec3& movement)> Callback;
     void registerCallback(Callback callback);
 
+    private:
+
+    std::vector<Callback> callbacks;
+
+    //
+    // subclass interface/implementation
+    //
+
     protected:
 
-    static constexpr double pickRadius = 10.0;
+    // virtual functions to be overridden in subclasses
+
+    virtual double distance(const glm::vec3& mouse) const {return std::numeric_limits<int>::max();}
+    virtual void handleMousePressed() {}
+    virtual void handleMouseDragged() {}
+    virtual void handleMouseReleased() {}
 
     // helper functions for subclasses
+
+    static void addToRegistry(std::shared_ptr<Pickable> pickable);
+
+    static constexpr double pickRadius = 10.0;
 
     static glm::vec3 mouse()
     {
@@ -54,24 +67,18 @@ class Pickable
         return distance(mouse()) < pickRadius;
     }
 
-    // virtual functions to be overridden in subclasses
-
-    virtual double distance(const glm::vec3& mouse) const {return std::numeric_limits<int>::max();}
-    virtual void handleMousePressed() {}
-    virtual void handleMouseDragged() {}
-    virtual void handleMouseReleased() {}
-
     private:
 
-    static std::vector<std::weak_ptr<Pickable>> registry;
-    static void initializeRegistry();
-    static std::shared_ptr<Pickable> selected;
+    // mouse event handling -- static mouse event handlers delegate
+    // to Pickable objects in the registry
 
     static void mousePressed(ofMouseEventArgs&);
     static void mouseDragged(ofMouseEventArgs&);
     static void mouseReleased(ofMouseEventArgs&);
 
-    std::vector<Callback> callbacks;
+    static std::vector<std::weak_ptr<Pickable>> registry;
+    static void initializeRegistry();
+    static std::shared_ptr<Pickable> selected;
 };
 
 
@@ -79,9 +86,14 @@ class PickableCircle : public Pickable
 {
     public:
 
-    PickableCircle(double x, double y)
-    :   position(x, y, 0)
-    {}
+    // static create() automatically adds object to registry
+
+    static std::shared_ptr<Pickable> create(double x, double y)
+    {
+        auto result = shared_ptr<Pickable>(new PickableCircle(x, y));
+        addToRegistry(result);
+        return result;
+    }
 
     void draw() const override;
 
@@ -93,6 +105,10 @@ class PickableCircle : public Pickable
     private:
 
     glm::vec3 position;
+
+    PickableCircle(double x, double y)
+    :   position(x, y, 0)
+    {}
 };
 
 

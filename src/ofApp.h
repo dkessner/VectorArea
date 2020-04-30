@@ -32,6 +32,8 @@ class ofApp : public ofBaseApp
     private:
     
     Vector v;
+    Vector w;
+
     vector<shared_ptr<Pickable>> pickables;
 };
 

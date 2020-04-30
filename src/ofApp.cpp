@@ -29,7 +29,10 @@ void testCallback(const glm::vec3& movement)
 void ofApp::setup()
 {
     v.set(vec3(200.0, 50.0, 0));
-    v.setPosition(vec3(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2, 0.0));
+    v.setPosition(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
+
+    v.set(vec3(100.0, 0, 0));
+    v.setPosition(1*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
 
     auto p = PickableCircle::create(500, 400);
     pickables.push_back(p);

@@ -13,7 +13,10 @@ class Vector
 
     Vector();
 
+    void set(double x, double y=0, double z=0);
     void set(const glm::vec3& components);
+
+    void setPosition(double x, double y=0, double z=0);
     void setPosition(const glm::vec3& position);
 
     void draw();

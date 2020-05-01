@@ -20,6 +20,9 @@ Vector::Vector(const vec3& components, const vec3& position)
     pickableHead = PickableCircle::create();
     pickableHead->registerCallback(bind(&Vector::moveHead, this, std::placeholders::_1));
 
+    pickableBody = PickableLineSegment::create();
+    pickableBody->registerCallback(bind(&Vector::moveBody, this, std::placeholders::_1));
+
     initializeMesh();
 
     setPosition(position);
@@ -60,6 +63,7 @@ void Vector::setPosition(const vec3& position)
     primitive.setPosition(position);
     pickableTail->setPosition(position);
     pickableHead->setPosition(position + components);
+    pickableBody->setEndpoints(position, position+components);
 }
 
  
@@ -68,6 +72,8 @@ void Vector::moveTail(const glm::vec3& movement)
     primitive.move(movement);   // move the position of the tail/primitive
     components -= movement;     // move the head back to where it was
     updateMesh();
+
+    pickableBody->setEndpoints(primitive.getPosition(), primitive.getPosition()+components);
 }
 
 
@@ -75,6 +81,17 @@ void Vector::moveHead(const glm::vec3& movement)
 {
     components += movement;
     updateMesh();
+
+    pickableBody->setEndpoints(primitive.getPosition(), primitive.getPosition()+components);
+}
+
+
+void Vector::moveBody(const glm::vec3& movement)
+{
+    primitive.move(movement);       // move everything, including head
+
+    pickableHead->move(movement);
+    pickableTail->move(movement);
 }
 
 
@@ -86,6 +103,8 @@ void Vector::draw()
     ofSetLineWidth(3);
     primitive.draw();           // draw triangle faces, i.e. arrow head
     primitive.drawWireframe();  // draw vector body, which is a line segment
+
+    pickableBody->draw();
 }
 
 

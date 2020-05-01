@@ -109,3 +109,30 @@ double PickableCircle::distance(const vec3& mouse) const
 }
 
 
+//
+// PickableLineSegment
+//
+
+
+void PickableLineSegment::draw() const
+{
+    ofFill();
+    picked() ? ofSetColor(0, 255, 0) : ofSetColor(128);
+    ofSetLineWidth(picked() ? 3 : 1);
+    ofDrawLine(a, b);
+}
+
+
+void PickableLineSegment::handleMouseDragged()
+{
+    a += mouseMovement();
+    b += mouseMovement();
+}
+
+
+double PickableLineSegment::distance(const vec3& mouse) const
+{
+    return glm::distance((a+b)/2, mouse) / 10; // hack
+}
+
+

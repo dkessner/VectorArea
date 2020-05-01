@@ -25,6 +25,7 @@ class Vector
 
     void moveTail(const glm::vec3& movement);
     void moveHead(const glm::vec3& movement);
+    void moveBody(const glm::vec3& movement);
 
     private:
 
@@ -46,6 +47,7 @@ class Vector
 
     shared_ptr<PickableCircle> pickableTail; 
     shared_ptr<PickableCircle> pickableHead; 
+    shared_ptr<PickableLineSegment> pickableBody;
 
     void initializeMesh();
     void updateMesh();

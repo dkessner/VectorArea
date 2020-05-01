@@ -117,3 +117,37 @@ class PickableCircle : public Pickable
 };
 
 
+class PickableLineSegment : public Pickable
+{
+    public:
+
+    // static create() automatically adds object to registry
+
+    static std::shared_ptr<PickableLineSegment> create(double x1 = 0, double y1 = 0,
+                                                       double x2 = 0, double y2 = 0)
+    {
+        auto result = shared_ptr<PickableLineSegment>(new PickableLineSegment(x1, y1, x2, y2));
+        addToRegistry(result);
+        return result;
+    }
+
+    void draw() const override;
+
+    void setEndpoints(const glm::vec3& a, const glm::vec3& b) {this->a=a; this->b=b;}
+    void move(const glm::vec3& movement) {a += movement; b += movement;}
+
+    protected:
+
+    double distance(const glm::vec3& mouse) const override;
+    void handleMouseDragged() override;
+
+    private:
+
+    glm::vec3 a, b;
+
+    PickableLineSegment(double x1, double y1, double x2, double y2)
+    :   a(x1, y1, 0), b(x2, y2, 0)
+    {}
+};
+
+

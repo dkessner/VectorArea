@@ -16,8 +16,8 @@ void ofApp::setup()
     v.set(vec3(200.0, 50.0, 0));
     v.setPosition(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
 
-    w.set(vec3(100.0, 0, 0));
-    w.setPosition(1*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
+    w = make_shared<Vector>(100.0, 0, 0);
+    w->setPosition(1*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
 }
 
 
@@ -35,7 +35,7 @@ void ofApp::draw()
     ofDrawBitmapString("Hello, world!", 50, 50);
 
     v.draw();
-    w.draw();
+    w->draw();
 }
 
 

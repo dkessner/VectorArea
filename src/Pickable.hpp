@@ -44,7 +44,7 @@ class Pickable
 
     static void addToRegistry(std::shared_ptr<Pickable> pickable);
 
-    static constexpr double pickRadius = 10.0;
+    static constexpr double pickRadius = 7.0;
 
     static glm::vec3 mouse()
     {

@@ -11,7 +11,8 @@ using namespace std;
 using namespace glm;
 
 
-Vector::Vector()
+Vector::Vector(const vec3& components, const vec3& position)
+:   components(components)
 {
     pickableTail = PickableCircle::create();
     pickableTail->registerCallback(bind(&Vector::moveTail, this, std::placeholders::_1));
@@ -20,7 +21,19 @@ Vector::Vector()
     pickableHead->registerCallback(bind(&Vector::moveHead, this, std::placeholders::_1));
 
     initializeMesh();
+
+    setPosition(position);
 }
+
+
+Vector::Vector(const vec3& components)
+:   Vector(components, vec3())
+{}
+
+
+Vector::Vector(double x, double y, double z)
+:   Vector(vec3(x, y, z))
+{}
 
 
 void Vector::set(double x, double y, double z)
@@ -67,7 +80,9 @@ void Vector::moveHead(const glm::vec3& movement)
 
 void Vector::draw()
 {
+    ofSetLineWidth(3);
     primitive.draw();
+
     pickableTail->draw();
     pickableHead->draw();
 }
@@ -86,8 +101,8 @@ void Vector::initializeMesh()
 
     mesh.addColor(ofColor::blue);
     mesh.addColor(ofColor::white);
-    mesh.addColor(ofColor::yellow);
-    mesh.addColor(ofColor::yellow);
+    mesh.addColor(ofColor::white);
+    mesh.addColor(ofColor::white);
 
     mesh.addIndex(0);
     mesh.addIndex(1);
@@ -97,6 +112,8 @@ void Vector::initializeMesh()
 
     mesh.addIndex(3);
     mesh.addIndex(1);
+
+    updateMesh();                   // update arrow positions
 }
 
 

@@ -11,7 +11,9 @@ class Vector
 {
     public:
 
-    Vector();
+    Vector(const glm::vec3& components, const glm::vec3& position);
+    Vector(const glm::vec3& components);
+    Vector(double x=0, double y=0, double z=0);
 
     void set(double x, double y=0, double z=0);
     void set(const glm::vec3& components);

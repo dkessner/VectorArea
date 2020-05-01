@@ -32,6 +32,6 @@ class ofApp : public ofBaseApp
     private:
     
     Vector v;
-    Vector w;
+    std::shared_ptr<Vector> w;
 };
 

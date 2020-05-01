@@ -82,20 +82,18 @@ void Pickable::registerCallback(Callback callback)
 
 void PickableCircle::draw() const
 {
-    double radius = pickRadius;
+    ofFill();
+    ofSetColor(128);
+    ofSetLineWidth(1);
+    ofDrawCircle(position, pickRadius);
 
     if (picked())
     {
-        ofSetLineWidth(5);
-        radius *= 1.2;
+        ofNoFill();
+        ofSetColor(0, 255, 0);
+        ofSetLineWidth(3);
+        ofDrawCircle(position, pickRadius * 1.2);
     }
-    else
-    {
-        ofSetLineWidth(2);
-    }
-
-    ofSetColor(255);
-    ofDrawCircle(position, radius);
 }
 
 

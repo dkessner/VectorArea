@@ -80,11 +80,12 @@ void Vector::moveHead(const glm::vec3& movement)
 
 void Vector::draw()
 {
-    ofSetLineWidth(3);
-    primitive.draw();
-
     pickableTail->draw();
     pickableHead->draw();
+
+    ofSetLineWidth(3);
+    primitive.draw();           // draw triangle faces, i.e. arrow head
+    primitive.drawWireframe();  // draw vector body, which is a line segment
 }
 
 
@@ -92,7 +93,8 @@ void Vector::initializeMesh()
 {
     ofMesh& mesh = primitive.getMesh();
 
-    mesh.setMode(OF_PRIMITIVE_LINES);
+    mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+
     mesh.addVertex(glm::vec3());    // tail at (0,0)
     mesh.addVertex(components);     // head at (components)
 
@@ -104,16 +106,19 @@ void Vector::initializeMesh()
     mesh.addColor(ofColor::white);
     mesh.addColor(ofColor::white);
 
+    // first "triangle": vector body
+
     mesh.addIndex(0);
     mesh.addIndex(1);
+    mesh.addIndex(1);   
 
+    // second triangle: the arrow head
+
+    mesh.addIndex(1);
     mesh.addIndex(2);
-    mesh.addIndex(1);
-
     mesh.addIndex(3);
-    mesh.addIndex(1);
 
-    updateMesh();                   // update arrow positions
+    updateMesh();       // update arrow positions based on components
 }
 
 

@@ -52,8 +52,9 @@ void Vector::setPosition(const vec3& position)
  
 void Vector::moveTail(const glm::vec3& movement)
 {
-    primitive.move(movement);
-    pickableHead->move(movement);
+    primitive.move(movement);   // move the position of the tail/primitive
+    components -= movement;     // move the head back to where it was
+    updateMesh();
 }
 
 

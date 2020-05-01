@@ -26,6 +26,19 @@ class Vector
 
     private:
 
+    //
+    // Implementation notes:
+    //
+    // - components: the actual <x,y,z> components of the vector
+    //
+    // - primitive: the graphics info, including the mesh (vertices to draw)
+    //   and the coordinate system info (ofNode), which includes the position
+    //   (of the tail) of the vector in space
+    //
+    // tail: primitive.getPosition()
+    // head: primitive.getPosition() + components
+    //
+
     glm::vec3 components;
     of3dPrimitive primitive;
 

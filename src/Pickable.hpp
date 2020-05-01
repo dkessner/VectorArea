@@ -23,6 +23,8 @@ class Pickable
     typedef std::function<void(const glm::vec3& movement)> Callback;
     void registerCallback(Callback callback);
 
+    virtual ~Pickable() {}
+
     private:
 
     std::vector<Callback> callbacks;

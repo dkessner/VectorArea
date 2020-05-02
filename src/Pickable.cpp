@@ -120,6 +120,17 @@ void PickableLineSegment::draw() const
     picked() ? ofSetColor(0, 255, 0) : ofSetColor(128);
     ofSetLineWidth(picked() ? 3 : 1);
     ofDrawLine(a, b);
+
+    float x = (3*a.x+b.x)/4;
+    float y = (a.y+b.y)/2 + 40;
+
+    constexpr bool showDistances = false;
+    if (showDistances)
+    {
+        ofDrawBitmapString("dist(mouse,segment): " + to_string(distance(mouse())), x, y += 20);
+        ofDrawBitmapString("dist(mouse,a): " + to_string(glm::distance(mouse(), a)), x, y += 20);
+        ofDrawBitmapString("dist(mouse,b): " + to_string(glm::distance(mouse(), b)), x, y += 20);
+    }
 }
 
 
@@ -130,9 +141,31 @@ void PickableLineSegment::handleMouseDragged()
 }
 
 
+//
+// glm geometric functions (dot, cross, distance, normalize)
+//      https://glm.g-truc.net/0.9.9/api/a00279.html
+//
+
+
 double PickableLineSegment::distance(const vec3& mouse) const
 {
-    return glm::distance((a+b)/2, mouse) / 10; // hack
+    vec3 u = b - a;
+    vec3 v = mouse - a;
+    vec3 w = mouse - b;
+    double vu = dot(v,u);
+    double wu = dot(w,u);
+
+    if (vu < 0) return length(v); // distance to a
+
+    if (wu > 0) return length(w); // distance to b
+
+    // we're "between" a and b, so we calculate perpendicular distance by
+    // projecting onto the segment
+
+    vec3 u1 = normalize(u);
+    vec3 vproj = dot(v,u1) * u1;
+    vec3 d = v - vproj;
+    return length(d);
 }
 
 

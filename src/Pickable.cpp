@@ -10,6 +10,31 @@ using namespace std;
 using namespace glm;
 
 
+
+typedef std::function<glm::vec3(const glm::vec3& mouse)> MouseTransformation;
+
+namespace {
+
+vec3 identity(const vec3& mouse) {return mouse;}
+
+vec3 circleTransform(const vec3& mouse)
+{
+    vec3 center(1024/2.0f, 768/2.0f, 0.0f);
+    constexpr int radius = 100;
+
+    vec3 d = normalize(mouse - center) * radius; 
+    return center + d;
+}
+
+
+} // namespace
+
+
+Pickable::Pickable()
+:   mouseTransformation(identity)
+{}
+
+
 // registry of Pickable objects to receive mouse events
 vector<weak_ptr<Pickable>> Pickable::registry;
 
@@ -65,9 +90,15 @@ shared_ptr<Pickable> Pickable::selected;
 }
 
 
-void Pickable::registerCallback(Callback callback)
+void Pickable::registerCallback(const Callback& callback)
 {
     callbacks.push_back(callback);
+}
+
+
+void Pickable::setMouseTransformation(const MouseTransformation& mouseTransformation)
+{
+    this->mouseTransformation = mouseTransformation;
 }
 
 
@@ -95,10 +126,14 @@ void PickableCircle::draw() const
 
 void PickableCircle::handleMouseDragged()
 {
-    position += mouseMovement();
+    vec3 mouse = mouseTransformation(Pickable::mouse());
+    vec3 previousMouse = mouseTransformation(Pickable::previousMouse());
+    vec3 mouseMovement = mouse - previousMouse;
+
+    position += mouseMovement;
 
     for (const auto& callback : callbacks)
-        callback(mouseMovement());
+        callback(mouseMovement);
 }
 
 

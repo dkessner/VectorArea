@@ -18,10 +18,15 @@ class Pickable
 
     public:
 
+    Pickable();
+
     virtual void draw() const = 0;
 
     typedef std::function<void(const glm::vec3& movement)> Callback;
-    void registerCallback(Callback callback);
+    void registerCallback(const Callback& callback);
+
+    typedef std::function<glm::vec3(const glm::vec3& mouse)> MouseTransformation;
+    void setMouseTransformation(const MouseTransformation& mouseTransformation);
 
     virtual ~Pickable() {}
 
@@ -32,6 +37,7 @@ class Pickable
     protected:
 
     std::vector<Callback> callbacks;
+    MouseTransformation mouseTransformation;
 
     // virtual functions to be overridden in subclasses
 

@@ -17,7 +17,7 @@ void ofApp::setup()
     v.setPosition(3*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
 
     w = make_shared<Vector>(100.0, 0, 0);
-    w->setPosition(1*ofGetWindowWidth()/4, ofGetWindowHeight()/2);
+    w->setPosition(ofGetWindowWidth()/2, ofGetWindowHeight()/2);
 }
 
 

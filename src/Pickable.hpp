@@ -20,6 +20,9 @@ class Pickable
 
     Pickable();
 
+    bool isActive() const {return active;}
+    void setActive(bool active) {this->active = active;}
+
     virtual void draw() const = 0;
 
     typedef std::function<void(const glm::vec3& movement)> Callback;
@@ -36,6 +39,7 @@ class Pickable
 
     protected:
 
+    bool active = true;
     std::vector<Callback> callbacks;
     MouseTransformation mouseTransformation;
 
@@ -67,7 +71,7 @@ class Pickable
         return mouse() - previousMouse();
     }
 
-    bool picked() const
+    bool isPicked() const
     {
         // note: distance() is virtual, pickRadius is static
         return distance(mouse()) < pickRadius;

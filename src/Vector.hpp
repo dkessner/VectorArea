@@ -23,6 +23,13 @@ class Vector
 
     void draw();
 
+    shared_ptr<Pickable> getPickableTail() {return pickableTail;}
+    shared_ptr<Pickable> getPickableHead() {return pickableHead;}
+    shared_ptr<Pickable> getPickableBody() {return pickableBody;}
+
+
+    // Pickable callbacks
+
     void moveTail(const glm::vec3& movement);
     void moveHead(const glm::vec3& movement);
     void moveBody(const glm::vec3& movement);

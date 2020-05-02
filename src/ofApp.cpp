@@ -18,6 +18,8 @@ void ofApp::setup()
 
     w = make_shared<Vector>(100.0, 0, 0);
     w->setPosition(ofGetWindowWidth()/2, ofGetWindowHeight()/2);
+    w->getPickableTail()->setActive(false);
+    w->getPickableBody()->setActive(false);
 }
 
 

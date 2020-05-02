@@ -63,7 +63,7 @@ shared_ptr<Pickable> Pickable::selected;
 {
     for (auto wp : registry)
         if (auto p = wp.lock())
-            if (p->picked())
+            if (p->isActive() && p->isPicked())
             {
                 selected = p;
                 break;
@@ -109,12 +109,14 @@ void Pickable::setMouseTransformation(const MouseTransformation& mouseTransforma
 
 void PickableCircle::draw() const
 {
+    if (!active) return;
+
     ofFill();
     ofSetColor(128);
     ofSetLineWidth(1);
     ofDrawCircle(position, pickRadius);
 
-    if (picked())
+    if (isPicked())
     {
         ofNoFill();
         ofSetColor(0, 255, 0);
@@ -150,9 +152,11 @@ double PickableCircle::distance(const vec3& mouse) const
 
 void PickableLineSegment::draw() const
 {
+    if (!active) return;
+
     ofFill();
-    picked() ? ofSetColor(0, 255, 0) : ofSetColor(128);
-    ofSetLineWidth(picked() ? 3 : 1);
+    isPicked() ? ofSetColor(0, 255, 0) : ofSetColor(128);
+    ofSetLineWidth(isPicked() ? 3 : 1);
     ofDrawLine(a, b);
 
     float x = (3*a.x+b.x)/4;

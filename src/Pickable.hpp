@@ -25,15 +25,13 @@ class Pickable
 
     virtual ~Pickable() {}
 
-    private:
-
-    std::vector<Callback> callbacks;
-
     //
     // subclass interface/implementation
     //
 
     protected:
+
+    std::vector<Callback> callbacks;
 
     // virtual functions to be overridden in subclasses
 

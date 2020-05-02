@@ -52,13 +52,9 @@ shared_ptr<Pickable> Pickable::selected;
 /*static*/ void Pickable::mouseDragged(ofMouseEventArgs&)
 {
     if (selected)
-    {
         selected->handleMouseDragged();
-
-        for (const auto& callback : selected->callbacks)
-            callback(mouseMovement());
-    }
 }
+
 
 /*static*/ void Pickable::mouseReleased(ofMouseEventArgs&)
 {
@@ -100,6 +96,9 @@ void PickableCircle::draw() const
 void PickableCircle::handleMouseDragged()
 {
     position += mouseMovement();
+
+    for (const auto& callback : callbacks)
+        callback(mouseMovement());
 }
 
 
@@ -138,6 +137,9 @@ void PickableLineSegment::handleMouseDragged()
 {
     a += mouseMovement();
     b += mouseMovement();
+
+    for (const auto& callback : callbacks)
+        callback(mouseMovement());
 }
 
 

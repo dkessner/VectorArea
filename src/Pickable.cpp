@@ -4,6 +4,7 @@
 
 
 #include "Pickable.hpp"
+#include <functional>
 
 
 using namespace std;
@@ -11,22 +12,9 @@ using namespace glm;
 
 
 
-typedef std::function<glm::vec3(const glm::vec3& mouse)> MouseTransformation;
 
 namespace {
-
 vec3 identity(const vec3& mouse) {return mouse;}
-
-vec3 circleTransform(const vec3& mouse)
-{
-    vec3 center(1024/2.0f, 768/2.0f, 0.0f);
-    constexpr int radius = 100;
-
-    vec3 d = normalize(mouse - center) * radius; 
-    return center + d;
-}
-
-
 } // namespace
 
 
@@ -99,6 +87,21 @@ void Pickable::registerCallback(const Callback& callback)
 void Pickable::setMouseTransformation(const MouseTransformation& mouseTransformation)
 {
     this->mouseTransformation = mouseTransformation;
+}
+
+
+namespace {
+vec3 mapToCircle(const vec3& mouse, const vec3& center, double radius)
+{
+    return center + normalize(mouse - center) * radius; 
+}
+} // namespace
+
+
+void Pickable::constrainToCircle(const vec3& center, double radius)
+{
+    using namespace std::placeholders;
+    this->mouseTransformation = std::bind(mapToCircle, _1, center, radius);
 }
 
 

@@ -20,6 +20,7 @@ void ofApp::setup()
     w->setPosition(ofGetWindowWidth()/2, ofGetWindowHeight()/2);
     w->getPickableTail()->setActive(false);
     w->getPickableBody()->setActive(false);
+    w->getPickableHead()->constrainToCircle(w->getPosition(), length(w->getComponents()));
 }
 
 

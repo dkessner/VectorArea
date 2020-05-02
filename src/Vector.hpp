@@ -27,6 +27,8 @@ class Vector
     shared_ptr<Pickable> getPickableHead() {return pickableHead;}
     shared_ptr<Pickable> getPickableBody() {return pickableBody;}
 
+    glm::vec3 getPosition() const {return primitive.getPosition();}
+    const glm::vec3& getComponents() const {return components;}
 
     // Pickable callbacks
 

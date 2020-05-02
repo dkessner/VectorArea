@@ -30,6 +30,7 @@ class Pickable
 
     typedef std::function<glm::vec3(const glm::vec3& mouse)> MouseTransformation;
     void setMouseTransformation(const MouseTransformation& mouseTransformation);
+    void constrainToCircle(const glm::vec3& center, double radius);
 
     virtual ~Pickable() {}
 

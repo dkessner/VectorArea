@@ -2,8 +2,11 @@
 
 ## TODO
 
-- Vector: 
-    - register 3 Pickable objects (head, tail, body) 
+- template function Pickable::MakeCallback
+    - handle bind for client member functions
+ 
+- Vector: boolean tailWagsDog
+    - true -> move head with tail on callback to tail
 
 
 ## Reference
